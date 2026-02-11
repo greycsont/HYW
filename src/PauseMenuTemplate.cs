@@ -16,6 +16,8 @@ public abstract class PauseMenuTemplate : MonoBehaviour
     protected PauseMenu pauseMenuScript;
     protected RectTransform buttonsContainer;
 
+    protected TMP_FontAsset tmpAsset;
+
     protected virtual void Awake()
     {
         OnPreSetup();
@@ -26,13 +28,15 @@ public abstract class PauseMenuTemplate : MonoBehaviour
         OnPostSetup();
     }
 
-    protected virtual void OnEnable() {}
+    protected virtual void OnEnable()
+    {
+        PauseMenuScript();
+    }
 
     private void EnsureFullScreen()
     {
         RectTransform rt = GetComponent<RectTransform>();
         if (rt == null) rt = gameObject.AddComponent<RectTransform>();
-        transform.SetAsFirstSibling();
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         
@@ -46,14 +50,13 @@ public abstract class PauseMenuTemplate : MonoBehaviour
     private void BuildFixedContent()
     {
         CreateButton();
-        AddPauseMenuScript();
     }
 
     private void CreateButton()
     {
         resumeBtn = AddButton("RESUME", OnResumeClicked);
         checkpointBtn = AddButton("CHECKPOINT", OnCheckpointClicked);
-        restartBtn = AddButton("RESTART", OnRestartClicked);
+        restartBtn = AddButton("RESTART MISSION", OnRestartClicked);
         optionsBtn = AddButton("OPTIONS", OnOptionsClicked);
         quitBtn = AddButton("QUIT", OnQuitClicked);
 
@@ -76,11 +79,11 @@ public abstract class PauseMenuTemplate : MonoBehaviour
         btnObj.transform.SetParent(buttonsContainer, false);
 
         RectTransform rt = btnObj.AddComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(100, 50);
+        rt.sizeDelta = new Vector2(150, 30);
 
         btnObj.AddComponent<CanvasRenderer>();
         Image img = btnObj.AddComponent<Image>(); 
-        img.color = new Color(1, 1, 1, 0.5f);
+        img.color = new Color(1, 1, 1, 0.95f);
 
         Button btn = btnObj.AddComponent<Button>();
         btn.onClick.AddListener(onClick);
@@ -90,12 +93,16 @@ public abstract class PauseMenuTemplate : MonoBehaviour
         TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
         tmp.text = label;
         tmp.alignment = TextAlignmentOptions.Center;
-        tmp.fontSize = 12;
+        tmp.fontSize = 14;
+        tmp.color = new Color(0, 0, 0, 1);
 
         RectTransform textRt = tmp.rectTransform;
         textRt.anchorMin = Vector2.zero;
         textRt.anchorMax = Vector2.one;
         textRt.offsetMin = textRt.offsetMax = Vector2.zero;
+
+        if (tmpAsset != null)
+            tmp.font = tmpAsset;
 
         return btn;
     }
@@ -106,16 +113,16 @@ public abstract class PauseMenuTemplate : MonoBehaviour
         containerObj.transform.SetParent(this.transform, false);
         buttonsContainer = containerObj.AddComponent<RectTransform>();
         
-        buttonsContainer.anchorMin = new Vector2(0, 0);
-        buttonsContainer.anchorMax = new Vector2(0.5f, 1);
+        buttonsContainer.anchorMin = new Vector2(0, 1);
+        buttonsContainer.anchorMax = new Vector2(1, 1);
         buttonsContainer.offsetMin = new Vector2(0, 0);
         buttonsContainer.offsetMax = new Vector2(0, 0);
         
-        var layout = containerObj.AddComponent<VerticalLayoutGroup>();
+        var layout = containerObj.AddComponent<HorizontalLayoutGroup>();
         
-        layout.childAlignment = TextAnchor.UpperLeft;
+        layout.childAlignment = TextAnchor.MiddleCenter;
         
-        layout.padding = new RectOffset(25, 0, 25, 0); 
+        layout.padding = new RectOffset(25, 25, 50, 10); 
 
         layout.spacing = 10;
         
@@ -126,7 +133,7 @@ public abstract class PauseMenuTemplate : MonoBehaviour
     }
 
 
-    private void AddPauseMenuScript()
+    private void PauseMenuScript()
 	{
         // Reference: PauseMenu in Assembly_CSharp
         var instance = MapInfoBase.Instance;

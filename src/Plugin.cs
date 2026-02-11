@@ -17,6 +17,8 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
         gameObject.hideFlags = HideFlags.DontSaveInEditor;
         
+        AssetLoader.Initialize();
+        
         var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         
         harmony.PatchAll();

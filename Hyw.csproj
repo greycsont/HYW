@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <AssemblyName>ArknightsPausing</AssemblyName>
+        <AssemblyName>Hyw</AssemblyName>
         <Product>Hyw</Product>
         <GUID>greycsont.ultrakill.hyw</GUID>
         <Version>1.0.0</Version>
@@ -75,6 +75,11 @@
         </Reference>
 
         <Publicize Include="Assembly-CSharp"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="asset/7000.bundle" />
+        <EmbeddedResource Include="asset/7000.bundle" />
     </ItemGroup>
 
 </Project>
