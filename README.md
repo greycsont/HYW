@@ -1,6 +1,10 @@
 ### Hyw
 it changes pause menu, that's it!
 
+here's a screenshot:
+
+<img src="https://github.com/greycsont/Hyw/raw/master/asset/example.png">
+
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 why there's a script called PauseMenu and I can't find the pause menu used it?
