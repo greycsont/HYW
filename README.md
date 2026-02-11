@@ -29,4 +29,6 @@ why the OptionsMenuToManager.pausedMenu will change?
 
 why I open up the cheats menu the CheatsController.Update will call OptionsMenu.Pause that sets pauseMenu to active as well?
 
+unity's rendering logic is the GOAT. Who would've guessed that the last GameObject in the hierarchy is actually the one rendered on top?
+
 何意味
