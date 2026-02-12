@@ -1,9 +1,11 @@
 ### Hyw
 it changes pause menu, that's it!
 
-here's a screenshot:
+here's the screenshots:
 
 <img src="https://github.com/greycsont/Hyw/raw/master/asset/example.png">
+
+<img src="https://github.com/greycsont/Hyw/raw/master/asset/example2.png">
 
 <img src="https://github.com/greycsont/Hyw/raw/master/asset/Anan_hyw.png">
 
@@ -34,3 +36,5 @@ why I open up the cheats menu the CheatsController.Update will call OptionsMenu.
 unity's rendering logic is GOAT. who f knows that the last GameObject in the hierarchy is f the one rendered on top?
 
 何意味
+
+太zp了woc这暂停界面

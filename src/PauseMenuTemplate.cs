@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -13,8 +14,10 @@ public abstract class PauseMenuTemplate : MonoBehaviour
     protected Button optionsBtn;
     protected Button restartBtn;
     protected Button quitBtn;
+    protected List<Button> buttons = new List<Button>();
     protected PauseMenu pauseMenuScript;
     protected RectTransform buttonsContainer;
+    protected GamepadObjectSelector gamepadObjectSelector;
 
     protected TMP_FontAsset tmpAsset;
 
@@ -25,6 +28,7 @@ public abstract class PauseMenuTemplate : MonoBehaviour
         SetUpLayout();
         BuildFixedContent();
         SetupCustomContent();
+        SetExplicitNavigation();
         OnPostSetup();
     }
 
@@ -60,7 +64,26 @@ public abstract class PauseMenuTemplate : MonoBehaviour
         optionsBtn = AddButton("OPTIONS", OnOptionsClicked);
         quitBtn = AddButton("QUIT", OnQuitClicked);
 
-        gameObject.AddComponent<GamepadObjectSelector>();
+        gamepadObjectSelector = gameObject.AddComponent<GamepadObjectSelector>();
+
+        gamepadObjectSelector.mainTarget = resumeBtn.gameObject;
+    }
+    
+    private void SetExplicitNavigation()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Navigation nav = new Navigation();
+            nav.mode = Navigation.Mode.Explicit;
+            
+            nav.selectOnRight = buttons[(i + 1) % buttons.Count];
+            nav.selectOnLeft = buttons[(i - 1 + buttons.Count) % buttons.Count];
+            
+            nav.selectOnDown = nav.selectOnRight;
+            nav.selectOnUp = nav.selectOnLeft;
+
+            buttons[i].navigation = nav;
+        }
     }
     protected virtual void OnResumeClicked() { OptionsMenuToManager.Instance.UnPause(); }
     protected virtual void OnCheckpointClicked() { OptionsMenuToManager.Instance.RestartCheckpoint(); }
@@ -103,7 +126,9 @@ public abstract class PauseMenuTemplate : MonoBehaviour
 
         if (tmpAsset != null)
             tmp.font = tmpAsset;
-
+        
+        buttons.Add(btn);
+        
         return btn;
     }
 
